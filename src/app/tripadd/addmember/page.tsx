@@ -3,6 +3,7 @@ import Header from "../../../../components/Header";
 import { Button } from "../../../../components/ui/button";
 import { Input } from "../../../../components/ui/input";
 import { Metadata } from "next";
+import { UserList } from "../../../../components/ui/users";
 
 export const metadata: Metadata = {
   title: "メンバーの追加",
@@ -12,7 +13,14 @@ export const metadata: Metadata = {
   },
 };
 
-const page = () => {
+const page = ({
+  searchParams,
+}: {
+  searchParams?: {
+    userId?: string;
+  };
+}) => {
+  const userId = searchParams?.userId || ""; // デフォルトは表示しないようにする？
   return (
     <div className="h-screen w-full flex flex-col">
       <Header menu />
@@ -27,8 +35,11 @@ const page = () => {
               id="member"
               type="text"
               className="rounded-lg pr-5 shadow-custom-shadow cursor-pointer"
+              placeholder="ユーザーIDを入力"
             />
           </div>
+          {/* ユーザー一覧を表示するコンポーネント（バックエンド確認用） */}
+          <UserList userId={userId} />
           <span className="flex-1"></span>
           <Button
             variant="outline"

@@ -1,12 +1,35 @@
+"use client";
 import * as React from "react";
 
 import { cn } from "../../@/lib/utils";
+
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useDebouncedCallback } from "use-debounce";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
+    const searchParams = useSearchParams();
+    console.log("defalut searchParams", searchParams);
+    const pathname = usePathname();
+    const { replace } = useRouter();
+
+    // 検索するタイミングを 0.3 秒伸ばす
+    const handleSearch = useDebouncedCallback((userId) => {
+      // console.log(`Searching... ${userId}`);
+
+      const params = new URLSearchParams(searchParams);
+
+      if (userId) {
+        params.set("userId", userId);
+      } else {
+        params.delete("userId");
+      }
+      replace(`${pathname}?${params.toString()}`);
+    }, 300);
+
     return (
       <input
         type={type}
@@ -16,6 +39,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
         ref={ref}
         {...props}
+        onChange={(e) => {
+          handleSearch(e.target.value);
+        }}
+        defaultValue={searchParams.get("userId")?.toString()}
       />
     );
   }
