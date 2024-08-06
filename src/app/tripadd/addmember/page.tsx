@@ -1,4 +1,5 @@
 import React from "react";
+import { Suspense } from "react";
 import Header from "../../../../components/Header";
 import { Button } from "../../../../components/ui/button";
 import { Input } from "../../../../components/ui/input";
@@ -39,7 +40,9 @@ const page = ({
             />
           </div>
           {/* ユーザー一覧を表示するコンポーネント（バックエンド確認用） */}
-          <UserList userId={userId} />
+          <Suspense fallback={<p>取得中</p>}>
+            <UserList userId={userId} />
+          </Suspense>
           <span className="flex-1"></span>
           <Button
             variant="outline"
