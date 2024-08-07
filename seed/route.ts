@@ -46,8 +46,8 @@
 //         id SERIAL PRIMARY KEY,
 //         user_id VARCHAR(50) NOT NULL,
 //         fellow_id VARCHAR(50) NOT NULL,
-//         FOREIGN KEY (user_id) REFERENCES user(id),
-//         FOREIGN KEY (fellow_id) REFERENCES user(id)
+//         FOREIGN KEY (user_id) REFERENCES users(id),
+//         FOREIGN KEY (fellow_id) REFERENCES users(id)
 //       );
 //     `;
 
