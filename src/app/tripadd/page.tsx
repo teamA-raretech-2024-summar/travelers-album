@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import Header from "../../../components/Header";
 import Sidebar from "../../../components/Sidebar";
 import TripAddForm from "../../../components/TripAddForm";
@@ -18,11 +18,9 @@ const page = () => {
       <div className="h-screen w-full bg-gradient-to-b from-white to-black flex flex-col">
         <Header menu />
         <div className="flex-1 flex flex-col ">
-          <Suspense fallback={<div>Loading...</div>}>
-            <div className=" flex-1">
-              <TripAddForm />
-            </div>
-          </Suspense>
+          <div className=" flex-1">
+            <TripAddForm />
+          </div>
         </div>
       </div>
     </>
