@@ -22,8 +22,9 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { cn } from "../@/lib/utils";
 import { format } from "date-fns";
 import { Calendar } from "./ui/calendar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Checkbox } from "./ui/checkbox";
+import { fetchFellowTravelers } from "../lib/data";
 
 const TripAddSchema = z.object({
   Title: z.string(),
@@ -33,6 +34,7 @@ const TripAddSchema = z.object({
   TopPhoto: z.string(),
 });
 
+// DB から取得したい
 const members = {
   hachi: {
     id: 1,
@@ -54,10 +56,40 @@ const members = {
 type TripAddForm = z.infer<typeof TripAddSchema>;
 
 const TripAddForm = () => {
-  const [member, setMember] = useState(members);
-  const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
-
+  // 仲のよいユーザーの表示
+  // モーダルを開くタイミングで取得するか、旅行ボードを追加する画面で取得するか
+  // const members = await fetchFellowTravelers();
+  // const [member, setMember] = useState(members);
+  // const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
   const [isMemberModalOpen, setIsMemberModalOpen] = useState<boolean>(false);
+
+  // すずきサンプル
+  // メンバーをDBから取得してくるように修正
+  // React-Query で書けそう
+  const [members, setMembers] = useState([]);
+  useEffect(() => {
+    async function fetchUsers() {
+      const fetchedUsers = await fetchFellowTravelers();
+      const usersWithChecked = fetchedUsers.map((user) => ({
+        ...user,
+        checked: false,
+      }));
+      setMembers(usersWithChecked);
+      console.log("Fetched users:", usersWithChecked);
+    }
+    fetchUsers();
+  }, []);
+
+  const handleCheckboxChange = (userId: string, isChecked: boolean) => {
+    console.log("Checkbox changed:", members);
+    setMembers((prevUsers) =>
+      prevUsers.map((user) =>
+        user.id === userId ? { ...user, checked: isChecked } : user
+      )
+    );
+  };
+  // すずきサンプル
+
   const [DepartureCalendarMonth, setDepartureCalendarMonth] = useState<Date>(
     new Date()
   );
@@ -81,47 +113,52 @@ const TripAddForm = () => {
     router.replace("/tripadd");
   };
 
-  const updateCheckboxStates = () => {
-    const updatedMember = Object.fromEntries(
-      Object.entries(member).map(([key, value]) => [
-        key,
-        {
-          ...value,
-          checked: selectedMembers.includes(value.name),
-        },
-      ])
-    ) as typeof member;
-    setMember(updatedMember);
-  };
+  // const updateCheckboxStates = () => {
+  //   const updatedMember = Object.fromEntries(
+  //     Object.entries(member).map(([key, value]) => [
+  //       key,
+  //       {
+  //         ...value,
+  //         checked: selectedMembers.includes(value.name),
+  //       },
+  //     ])
+  //   ) as typeof member;
+  //   setMember(updatedMember);
+  // };
 
-  const handleCheckboxChange = (
-    memberKey: string,
-    isChecked: string | boolean
-  ) => {
-    if (isChecked) {
-      setSelectedMembers((prev) => [...prev, member[memberKey].name]);
-    } else {
-      setSelectedMembers((prev) =>
-        prev.filter((name) => name !== member[memberKey].name)
-      );
-    }
+  // const handleCheckboxChange = (
+  //   memberKey: string,
+  //   isChecked: string | boolean
+  // ) => {
+  //   if (isChecked) {
+  //     setSelectedMembers((prev) => [...prev, member[memberKey].name]);
+  //   } else {
+  //     setSelectedMembers((prev) =>
+  //       prev.filter((name) => name !== member[memberKey].name)
+  //     );
+  //   }
 
-    setMember((prevMember) => ({
-      ...prevMember,
-      [memberKey]: {
-        ...prevMember[memberKey],
-        checked: isChecked,
-      },
-    }));
-  };
+  //   setMember((prevMember) => ({
+  //     ...prevMember,
+  //     [memberKey]: {
+  //       ...prevMember[memberKey],
+  //       checked: isChecked,
+  //     },
+  //   }));
+  // };
 
-  const openMemberModal = () => {
-    updateCheckboxStates();
+  const openMemberModal = async () => {
+    // updateCheckboxStates();
     setIsMemberModalOpen(true);
   };
 
   const handleAddMember = () => {
-    const selectedMemberNames = selectedMembers.join(", ");
+    // const selectedMemberNames = selectedMembers.join(", ");
+    console.log("selectedMemberNames!!!", members);
+    const selectedMemberNames = members
+      .filter((member) => member.checked) // checkedがtrueのメンバーを選択
+      .map((member) => member.name) // 各メンバーのnameを抽出
+      .join(", "); // カンマ区切りの文字列に変換
     TripAddform.setValue("Member", selectedMemberNames);
     setIsMemberModalOpen(false);
   };
@@ -385,7 +422,7 @@ const TripAddForm = () => {
                   </FormItem>
                 )}
               />
-
+              {/* 参加者 */}
               <FormField
                 control={TripAddform.control}
                 name="Member"
@@ -464,7 +501,7 @@ const TripAddForm = () => {
             </div>
             <div className="py-10 sm:px-20 lg:px-36 flex flex-col   space-y-6">
               <div className="flex flex-col space-y-6">
-                {Object.entries(member).map(([key, value]) => (
+                {/* {Object.entries(member).map(([key, value]) => (
                   <div className="flex" key={key}>
                     <Checkbox
                       id={value.id.toString()}
@@ -479,6 +516,30 @@ const TripAddForm = () => {
                       className="flex-1 text-xl text-center font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                     >
                       {value.name}
+                    </label>
+                  </div>
+                ))} */}
+                {members.map((user) => (
+                  <div className="flex" key={user.id}>
+                    <Checkbox
+                      id={user.id.toString()}
+                      className="self-start"
+                      checked={user.checked}
+                      onCheckedChange={(checked: string | boolean) =>
+                        handleCheckboxChange(user.id, checked as boolean)
+                      }
+                    />
+                    {/* <label
+                      htmlFor={user.id.toString()}
+                      className="flex-1 text-xl text-center font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      ID : {user.id}
+                    </label> */}
+                    <label
+                      htmlFor={user.id.toString()}
+                      className="flex-1 text-xl text-center font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      {user.name}
                     </label>
                   </div>
                 ))}
