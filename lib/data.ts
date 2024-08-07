@@ -1,6 +1,7 @@
 import { sql } from "@vercel/postgres";
 import { User } from "./definitions";
 import { users as sampleUsers } from "./placeholder-data";
+import { members as sampleFellowTravelers } from "./placeholder-data";
 
 // ID でユーザーを検索
 export async function fetchFilteredUsers(userId: string) {
@@ -29,3 +30,44 @@ export async function fetchFilteredUsers(userId: string) {
     throw new Error("Failed to fetch users.");
   }
 }
+
+// 現在のユーザーの仲間？（fellow ユーザー）取得する）
+export async function fetchFellowTravelers() {
+  return sampleFellowTravelers;
+
+  // ログインしているユーザーのIDがどこかから欲しい
+  const userId = "user2";
+
+  // DB から引っ張ってくる場合（まだ DB ができていないのでどれが動くのかわからない）
+  // try {
+  //   // ex.1
+  //   const friends = await sql<User>`
+  //   SELECT DISTINCT u.*
+  //   FROM Users u
+  //   JOIN Friendships f ON (u.id = f.friend_id OR u.id = f.user_id)
+  //   WHERE (f.user_id = ${`%${userId}%`} OR f.friend_id = ${`%${userId}%`})
+  //       AND u.id != ${`%${userId}%`}
+  //   `;
+  //   return friends.rows;
+  // } catch (error) {
+  //   console.error("Database Error:", error);
+  //   throw new Error("Failed to fetch users.");
+  // }
+}
+
+// 新規旅行者登録で登録したメンバーをログインしているユーザーの仲のよいユーザーとして登録する
+// ログインユーザーのIDが欲しい...
+// DB に追加するだけなので戻り値は成功したか失敗したかでもよいかも
+// 失敗したら失敗の通知でもいいかも...
+export const registerFriends = (members) => {
+  // ログインしているユーザーのIDがどこかから欲しい
+  const userId = "user2";
+
+  // DB へ保存（まだ DB ができていないのでどれが動くのかわからない）
+  // try {
+  //   return "";
+  // } catch (error) {
+  //   console.error("Database Error:", error);
+  //   throw new Error("Failed to fetch users.");
+  // }
+};

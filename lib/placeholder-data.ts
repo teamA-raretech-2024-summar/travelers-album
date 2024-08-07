@@ -57,6 +57,40 @@ export const fellow_travelers = [
   },
 ];
 
+// UserID: user2 と以前旅行にいったことのあるユーザー
+// クエリが返ってくる形式は以下
+// ex. UserIDが「user1」が」旅行ボードを作成する際にデフォルトで表示されるユーザー
+// mysql> SELECT DISTINCT u.id, u.name, u.icon
+//     -> FROM users u
+//     -> JOIN fellow_travelers f ON (u.id = f.fellow_id OR u.id = f.user_id)
+//     -> WHERE (f.user_id = 'user1' OR f.fellow_id = 'user1') AND u.id != 'user1';
+// +--------+--------+-----------+
+// | id     | name   | icon      |
+// +--------+--------+-----------+
+// | abcd   | abcd   | icon3.png |
+// | test-2 | test-2 | icon4.png |
+// | user2  | suzu   | icon2.png |
+// +--------+--------+-----------+
+// 3 rows in set (0.00 sec)
+
+export const members = [
+  {
+    id: 1,
+    name: "八村塁",
+    icon: "hachi.png",
+  },
+  {
+    id: 2,
+    name: "小池百合子",
+    icon: "koike.png",
+  },
+  {
+    id: 3,
+    name: "ジョシュ・ホーキンソン",
+    icon: "josyu.png",
+  },
+];
+
 export const tripboards_users = [
   {
     id: 1,
