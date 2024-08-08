@@ -27,7 +27,7 @@ const fellow_travelers = [
 
 const tripboards_users = [
   {
-    id:1,
+    id: 1,
     user_id: 'user1',
     board_id: 'trip1'
   },
