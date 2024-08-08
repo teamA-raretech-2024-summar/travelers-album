@@ -25,18 +25,27 @@ const AddMembers = ({ userId }: { userId: string }) => {
   }, [userId]);
 
   const handleCheckboxChange = (userId: string, isChecked: boolean) => {
-    console.log("Checkbox changed:", members);
     setMembers((prevUsers) =>
       prevUsers.map((user) =>
         user.id === userId ? { ...user, checked: isChecked } : user
       )
     );
+    console.log("Checkbox changed:", members);
   };
 
   const handleAddNewMembers = () => {
     console.log("Add new members button clicked", members);
     //　TODO: 新規旅行者をメンバーを追加モーダルに表示できるようにする
-    registerFriends(members);
+    // checked: true がついているメンバーを選ぶ
+    const addfriends = members
+      .filter((member) => member.checked) // checked が true の人をフィルタリング
+      .map((member) => ({
+        // 必要なプロパティだけを残す
+        id: member.id,
+        name: member.name,
+        icon: member.icon,
+      }));
+    registerFriends(addfriends);
     router.push("/tripadd");
   };
 

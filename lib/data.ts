@@ -59,9 +59,15 @@ export async function fetchFellowTravelers() {
 // ログインユーザーのIDが欲しい...
 // DB に追加するだけなので戻り値は成功したか失敗したかでもよいかも
 // 失敗したら失敗の通知でもいいかも...
-export const registerFriends = (members) => {
+export const registerFriends = (friends) => {
   // ログインしているユーザーのIDがどこかから欲しい
   const userId = "user2";
+  console.log("friends", friends);
+
+  friends.forEach((friend) => sampleFellowTravelers.push(friend));
+  // TODO:重複ユーザーがメンバー追加画面に出てきている問題が発生してしまうのでそこを修正
+  // フロントエンドに ID が漏れるのはまずい？？？
+  console.log(sampleFellowTravelers);
 
   // DB へ保存（まだ DB ができていないのでどれが動くのかわからない）
   // try {
