@@ -169,15 +169,15 @@ const TripAddForm = () => {
 
   return (
     <>
-      <div className="flex flex-col h-full items-center py-5 bg-gradient-to-b from-green-300 to-green-200">
-        <h2 className="text-2xl font-semibold self-start pl-10 md:pl-32">
-          Add Trip Log
-        </h2>
+      <div className="flex flex-col h-full items-center py-5  ">
         <HookForm {...TripAddform}>
-          <div className="flex items-center w-full h-full justify-center md:w-3/4">
+          <div className="flex flex-col items-center w-full h-full justify-center md:w-3/4 bg-green-400 bg-opacity-25 rounded-2xl shadow-custom-shadow space-y-7">
+            <h2 className=" text-2xl font-semibold self-center  ">
+              旅行ボードを追加
+            </h2>
             <form
               onSubmit={TripAddform.handleSubmit(Tripadd)}
-              className="space-y-10 flex flex-col w-full  "
+              className="space-y-8 flex flex-col w-full  "
             >
               <FormField
                 control={TripAddform.control}
@@ -304,9 +304,6 @@ const TripAddForm = () => {
                       </PopoverContent>
                     </Popover>
                     <FormMessage />
-                    <div className="absolute right-3 p-2 bg-slate-300 rounded-full  cursor-pointer hover:scale-110 transition shadow-custom-shadow hover:shadow-none">
-                      <CalendarIcon className="" />
-                    </div>
                   </FormItem>
                 )}
               />
@@ -416,9 +413,6 @@ const TripAddForm = () => {
                       </PopoverContent>
                     </Popover>
                     <FormMessage />
-                    <div className="absolute right-3 p-2 bg-slate-300 rounded-full  cursor-pointer hover:scale-110 transition shadow-custom-shadow hover:shadow-none">
-                      <CalendarIcon className="" />
-                    </div>
                   </FormItem>
                 )}
               />
@@ -435,17 +429,11 @@ const TripAddForm = () => {
                       <Input
                         placeholder="ゆうと"
                         {...field}
-                        className="shadow-custom-shadow"
+                        className="shadow-custom-shadow cursor-pointer"
                         autoComplete="off"
+                        onClick={openMemberModal}
                       />
                     </FormControl>
-
-                    <div
-                      className=" absolute right-3 p-2 bg-slate-300 rounded-full  cursor-pointer hover:scale-110 transition shadow-custom-shadow hover:shadow-none "
-                      onClick={openMemberModal}
-                    >
-                      <PlusCircle className="" />
-                    </div>
                   </FormItem>
                 )}
               />
@@ -466,9 +454,6 @@ const TripAddForm = () => {
                       />
                     </FormControl>
                     <FormMessage />
-                    <div className="absolute right-3 p-2 bg-slate-300 rounded-full  cursor-pointer hover:scale-110 transition shadow-custom-shadow hover:shadow-none ">
-                      <PlusCircle className="" />
-                    </div>
                   </FormItem>
                 )}
               />
