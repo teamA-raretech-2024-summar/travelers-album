@@ -64,10 +64,21 @@ export const registerFriends = (friends) => {
   const userId = "user2";
   console.log("friends", friends);
 
-  friends.forEach((friend) => sampleFellowTravelers.push(friend));
-  // TODO:重複ユーザーがメンバー追加画面に出てきている問題が発生してしまうのでそこを修正
+  friends.forEach((friend) => {
+    // ID が重複しているかどうかをチェック
+    const exists = sampleFellowTravelers.some(
+      (traveler) => traveler.id === friend.id
+    );
+
+    // 重複がなければ追加
+    if (!exists) {
+      sampleFellowTravelers.push(friend);
+    } else {
+      console.log(`Friend with ID ${friend.id} already exists.`);
+    }
+  });
+
   // フロントエンドに ID が漏れるのはまずい？？？
-  console.log(sampleFellowTravelers);
 
   // DB へ保存（まだ DB ができていないのでどれが動くのかわからない）
   // try {
