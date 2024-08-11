@@ -24,6 +24,9 @@ import { cn } from "../@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "./ui/calendar";
 import { ja } from "date-fns/locale";
+//import { useActionState } from 'react';
+import { useFormState } from 'react-dom';
+import { authenticate } from './../lib/actions';
 
 const LoginSchema = z.object({
   Email: z.string().email(),
@@ -69,6 +72,11 @@ const Form = () => {
     },
   });
 
+  const [errorMessage, formAction, isPending] = useFormState(
+    authenticate,
+    undefined,
+  );
+
   function onLoginSubmit(values: LoginFormSchema) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
@@ -105,7 +113,7 @@ const Form = () => {
     <>
       <div className="bg-yellow-400 bg-opacity-20 rounded-lg shadow-lg  w-full mx-14 md:w-1/2 py-4 px-12 space-y-3">
         {variant === "LogIn" && (
-          <>
+          <form action={formAction} className="space-y-3">
             <h2 className="text-center text-2xl font-bold">ログイン</h2>
             <HookForm {...Loginform} key={variant}>
               <form
@@ -142,12 +150,12 @@ const Form = () => {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="self-center">
+                <Button type="submit" className="self-center" aria-disabled={isPending}>
                   ログイン
                 </Button>
               </form>
             </HookForm>
-          </>
+          </form>
         )}
         {variant === "SignUp" && (
           <>
