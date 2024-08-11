@@ -2,7 +2,7 @@
 
 import { signIn } from './../auth';
 import { AuthError } from 'next-auth';
-
+import { signOut } from '@/auth';
 
 export async function authenticate(
     prevState: string | undefined,
@@ -22,3 +22,5 @@ export async function authenticate(
       throw error;
     }
   }
+
+export async function signOut(){}
