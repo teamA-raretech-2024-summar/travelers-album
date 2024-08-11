@@ -27,6 +27,7 @@ import { ja } from "date-fns/locale";
 //import { useActionState } from 'react';
 import { useFormState } from 'react-dom';
 import { authenticate } from './../lib/actions';
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 
 const LoginSchema = z.object({
   Email: z.string().email(),
@@ -153,6 +154,18 @@ const Form = () => {
                 <Button type="submit" className="self-center" aria-disabled={isPending}>
                   ログイン
                 </Button>
+                <div
+                  className="flex h-8 items-end space-x-1"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
+                  {errorMessage && (
+                    <>
+                      <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
+                      <p className="text-sm text-red-500">{errorMessage}</p>
+                    </>
+                  )}
+                </div>
               </form>
             </HookForm>
           </form>

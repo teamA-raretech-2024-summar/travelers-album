@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import Hamburger from "./Hamburger";
 import { cn } from "../@/lib/utils";
+import { signOut } from '@/auth';
 
 interface HeaderProps {
   menu?: boolean;
@@ -58,11 +59,17 @@ const Header: React.FC<HeaderProps> = ({ menu, className }) => {
               <h2 className="text-sm ">マイページ</h2>
               <Link href={"/"} className="absolute inset-0"></Link>
             </div>
-            <div className="flex flex-col relative w-auto  rounded-lg items-center space-y-1 px-3 hover:scale-105 transition py-1 border border-gray-200 shadow-md hover:shadow-none hover:border-green-300">
-              <LogOutIcon className="self-center" />
-              <h2 className="text-sm ">ログアウト</h2>
-              <Link href={"/login"} className="absolute inset-0"></Link>
-            </div>
+            <form action={async ()=> {
+                'use server';
+                await signOut();
+              }}
+            >
+              <div className="flex flex-col relative w-auto  rounded-lg items-center space-y-1 px-3 hover:scale-105 transition py-1 border border-gray-200 shadow-md hover:shadow-none hover:border-green-300">
+                <LogOutIcon className="self-center" />
+                <h2 className="text-sm ">ログアウト</h2>
+                <Link href={"/login"} className="absolute inset-0"></Link>
+              </div>
+            </form>
           </div>
           <Hamburger className="flex flex-col  md:hidden p-2 pr-0 w-10 space-y-1 hover:scale-105 transition cursor-pointer group" />
         </>
