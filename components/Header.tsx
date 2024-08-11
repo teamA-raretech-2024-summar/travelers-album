@@ -60,7 +60,7 @@ const Header: React.FC<HeaderProps> = ({ menu, className }) => {
               <Link href={"/"} className="absolute inset-0"></Link>
             </div>
             <form action={async ()=> {
-                'use server';
+                
                 await signOut();
               }}
             >
