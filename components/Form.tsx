@@ -26,7 +26,7 @@ import { Calendar } from "./ui/calendar";
 import { ja } from "date-fns/locale";
 //import { useActionState } from 'react';
 import { useFormState } from 'react-dom';
-import { authenticate } from './../lib/actions';
+import { authenticate } from '../lib/actions';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 
 const LoginSchema = z.object({

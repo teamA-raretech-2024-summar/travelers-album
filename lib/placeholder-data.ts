@@ -1,3 +1,5 @@
+import { number } from "zod";
+
 const users = [
   {
     id: 'user1',
@@ -51,7 +53,7 @@ const trip_cards = [
     board_id: 'trip1',
     memo: '温泉気持ちよかった〜',
     thumbnail_id: 1,
-    location_point: {x: 36.3564, y: 138.6178}
+    location_point: 
   },
 ];
 
@@ -63,3 +65,5 @@ const card_pictures = [
     photo_date: '2024-05-04'
   },  
 ];
+
+export {users, fellow_travelers, tripboards_users, trip_boards, trip_cards, card_pictures};

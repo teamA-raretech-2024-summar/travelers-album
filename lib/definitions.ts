@@ -35,8 +35,7 @@ export type User = {
     board_id: string;
     memo?: string;
     thumbnail_id: number;
-    location_pointx?: number;
-    location_pointy?: number;
+    location_point?: number;
   };
   
   export type CardPicture = {
