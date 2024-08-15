@@ -15,46 +15,56 @@ datasource db {
 }
 
 model User {
-    id String @id
-    name String
-    email String
-    password String
-    icon String
-    birthday DateTime
-  }
+  id String @id
+  name String
+  email String
+  password String
+  icon String
+  birthday DateTime
+  tripboardUsers TripboardUser[]
+  fellowTraveler FellowTraveler[] @relation("UserRelation")
+  fellowFellows FellowTraveler[] @relation("FellowRelation")
+}
 
-  model FellowTraveler {
-    id Int @id @default(autoincrement())
-    user_id String
-    fellow_id String
-  }
+model FellowTraveler {
+  id Int @id @default(autoincrement())
+  user_id String
+  fellow_id String
+  user User @relation("UserRelation", fields: [user_id], references: [id])
+  fellow_user User @relation("FellowRelation", fields: [fellow_id], references: [id])
+}
   
-  model TripboardUser {
-    id Int @id @default(autoincrement())
-    user_id String
-    board_id String
-  }
+model TripboardUser {
+  id Int @id @default(autoincrement())
+  user_id String
+  board_id String
+  user User @relation(fields: [user_id], references: [id])
+  tripBoard TripBoard @relation(fields: [board_id], references: [id])
+}
   
-  model TripBoard {
-    id String @id
-    title String
-    start_at DateTime
-    end_at DateTime
-    thumbnail String
-    owner_id String
-    last_update DateTime
-  }
+model TripBoard {
+  id String @id
+  title String
+  start_at DateTime
+  end_at DateTime
+  thumbnail String
+  owner_id String
+  last_update DateTime
+  tripboardUsers TripboardUser[]
+  tripCard TripCard[]
+}
   
-  model TripCard {
-    id String @id
-    board_id String
-    memo String
-    thumbnail_id Int
-  }
+model TripCard {
+  id String @id
+  board_id String
+  memo String
+  thumbnail_id Int
+  tripCard TripBoard @relation(fields: [board_id], references: [id])
+}
   
-  model CardPicture {
-    id String @id
-    card_id String
-    picture String
-    photo_date DateTime
-  }
+model CardPicture {
+  id String @id
+  card_id String
+  picture String
+  photo_date DateTime
+}
