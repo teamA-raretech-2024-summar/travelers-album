@@ -74,6 +74,16 @@ CREATE TABLE "Testuser" (
     CONSTRAINT "Testuser_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Picture" (
+    "id" VARCHAR(50) NOT NULL,
+    "latitude" TEXT NOT NULL,
+    "longitude" TEXT NOT NULL,
+    "datatoken" TEXT NOT NULL,
+
+    CONSTRAINT "Picture_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
