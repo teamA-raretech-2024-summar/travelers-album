@@ -19,6 +19,7 @@ export const authOptions: AuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
+          console.log("ログイン認証に失敗")
           return null;
         }
 
@@ -29,6 +30,7 @@ export const authOptions: AuthOptions = {
         console.log("ログイン処理中");
 
         if (!user) {
+          console.log("ログイン認証に失敗")
           return null;
         }
 
